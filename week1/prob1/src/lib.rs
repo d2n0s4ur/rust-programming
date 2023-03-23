@@ -6,7 +6,24 @@ pub struct Player {
 
 impl Player {
     pub fn revive(&self) -> Option<Player> {
-        unimplemented!("Revive this player")
+        // unimplemented!("Revive this player")
+        if self.health == 0 { // Player is died
+            if self.level >= 10 { // Revive with 100 mana
+                return Some(Player {
+                    health: 100,
+                    mana: Some(100),
+                    level: self.level
+                });
+            } else { // Revive with 0 mana
+                return Some(Player {
+                    health: self.health,
+                    mana: None,
+                    level: self.level
+                });
+            }
+        } else { // return None
+            return None;
+        }
     }
 
     pub fn cast_spell(&mut self, mana_cost: u32) -> u32 {
