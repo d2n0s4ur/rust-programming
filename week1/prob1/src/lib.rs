@@ -16,7 +16,7 @@ impl Player {
                 });
             } else { // Revive with 0 mana
                 return Some(Player {
-                    health: self.health,
+                    health: 100,
                     mana: None,
                     level: self.level
                 });
@@ -27,7 +27,24 @@ impl Player {
     }
 
     pub fn cast_spell(&mut self, mana_cost: u32) -> u32 {
-        unimplemented!("Cast a spell of cost {}", mana_cost)
+        match self.mana {
+            None => {
+                if self.health <= mana_cost {
+                    self.health = 0;
+                } else {
+                    self.health -= mana_cost;
+                }
+                return 0;
+            }
+            Some(ref mut mana) => {
+                if *mana < mana_cost {
+                    return 0;
+                } else {
+                    *mana = *mana - mana_cost;
+                    return mana_cost * 2;
+                }
+            }
+        }
     }
 }
 
